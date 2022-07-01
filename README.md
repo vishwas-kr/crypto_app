@@ -7,7 +7,8 @@ Masmas crypto app allows you to trade everywhere and anywhere. Making crypto lif
 
 * Splash
 * Login (Email, Phone Number, Otp & Email Verification, Google, Facebook, Anonymous)
-Under Process: (Comming Soon) 🐱‍👤
+
+*Under Process: (Comming Soon) 🐱‍👤
 * Home
 * Provider (State Management)
 * Encryption
