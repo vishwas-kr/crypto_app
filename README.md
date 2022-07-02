@@ -1,16 +1,27 @@
-# crypto
+# CRYPTO
 
-A new Flutter project.
+The Masmas Crypto App. 
+Masmas crypto app allows you to trade everywhere and anywhere. Making crypto life the easiest and fastest way you can imagine.
 
-## Getting Started
+## App Features:
 
-This project is a starting point for a Flutter application.
+* Splash
+* Login (Email, Phone Number, Otp & Email Verification, Google, Facebook, Anonymous)
 
-A few resources to get you started if this is your first Flutter project:
+*Under Process: (Comming Soon) 🐱‍👤
+* Home
+* Provider (State Management)
+* Encryption
+* Personal profile
+* QR-code scanner
+* Trading and exchange features
+* Validation
+* User Notifications
+* Security features
+* And many more...
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Mobile UI
+![](images/cover.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Note
+I do not own any of the images used in this project.
