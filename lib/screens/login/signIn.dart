@@ -1,12 +1,11 @@
 import 'package:crypto/constants.dart';
 import 'package:crypto/screens/login/signUp.dart';
+import 'package:crypto/screens/login/success.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
 import 'package:crypto/widgets/f&g_button.dart';
 import 'package:crypto/widgets/text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -44,11 +43,13 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void loginUser() async {
-    FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
-      email: emailController.text,
-      password: emailPasswordController.text,
-      context: context,
-    );
+    context.read<FirebaseAuthMethods>().loginWithEmail(
+          email: emailController.text,
+          password: emailPasswordController.text,
+          context: context,
+        );
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
   }
 
   @override
@@ -66,6 +67,9 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Spacer(
+                flex: 10,
+              ),
               Container(
                 height: height * 0.050,
                 padding: const EdgeInsets.all(4),
@@ -130,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 }),
               ),
               const Spacer(
-                flex: 6,
+                flex: 12,
               ),
               // Sign UP Text
               isSelected
@@ -172,9 +176,45 @@ class _SignInScreenState extends State<SignInScreen> {
                     width: width / 2.5,
                     text: "Google",
                     image: "images/icons/google.png",
-                    onTap: () {},
+                    onTap: () {
+                      context
+                          .read<FirebaseAuthMethods>()
+                          .signInWithGoogle(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SuccessSignUpScreen()));
+                    },
                   )
                 ],
+              ),
+              const Spacer(
+                flex: 15,
+              ),
+              GestureDetector(
+                onTap: () {
+                  context
+                      .read<FirebaseAuthMethods>()
+                      .signInAnonymously(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SuccessSignUpScreen()));
+                },
+                child: Column(
+                  children: [
+                    Image(
+                      image: const AssetImage("images/anonymous.png"),
+                      height: height * 0.060,
+                    ),
+                    const Text(
+                      "Use anonymous instead?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: kGrey, fontFamily: "MYRIADPRO", height: 2),
+                    ),
+                  ],
+                ),
               ),
               const Spacer(
                 flex: 15,

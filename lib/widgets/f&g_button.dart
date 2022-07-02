@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:crypto/constants.dart';
 
- InkWell FGButtom({
+InkWell FGButtom({
   required double height,
   required double width,
   required String text,
@@ -25,8 +25,8 @@ import 'package:crypto/constants.dart';
         ),
         Text(
           text,
-          style:
-             const TextStyle(color: kBlack, fontFamily: "MYRIADPRO", fontSize: 16),
+          style: const TextStyle(
+              color: kBlack, fontFamily: "MYRIADPRO", fontSize: 16),
         )
       ]),
     ),

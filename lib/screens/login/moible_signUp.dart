@@ -1,9 +1,11 @@
 import 'package:crypto/constants.dart';
-import 'package:crypto/screens/login/verification_code.dart';
+import 'package:crypto/screens/login/success.dart';
+import 'package:crypto/services/firebase_auth_methods.dart';
 import 'package:crypto/widgets/appBar.dart';
 import 'package:crypto/widgets/greenButton.dart';
 import 'package:crypto/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MobileSignUp extends StatefulWidget {
   const MobileSignUp({Key? key}) : super(key: key);
@@ -14,6 +16,13 @@ class MobileSignUp extends StatefulWidget {
 
 class _MobileSignUpState extends State<MobileSignUp> {
   final TextEditingController signUpMobileController = TextEditingController();
+
+  void mobileNumberSignIn() {
+    context.read<FirebaseAuthMethods>().phoneSignIn(
+        phoneNumber: signUpMobileController.text, context: context);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +63,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
             ),
             greenButton(
               text: "Send OTP",
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VerificationCode()));
-              },
+              onPressed: mobileNumberSignIn,
             ),
             const Spacer(
               flex: 25,

@@ -37,6 +37,10 @@ dependencies:
   firebase_auth: ^3.3.20
   firebase_core: ^1.18.0
   firebase_storage: ^10.2.18
+  pin_code_fields: ^7.4.0
+  google_sign_in: ^5.3.3
+  flutter_facebook_auth: ^4.3.4+2
+  provider: ^6.0.3
 
 
 dev_dependencies:

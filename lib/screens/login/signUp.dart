@@ -1,9 +1,10 @@
 import 'package:crypto/constants.dart';
 import 'package:crypto/screens/login/moible_signUp.dart';
+import 'package:crypto/screens/login/success.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
 import 'package:crypto/widgets/text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -32,11 +33,15 @@ class _SignUpState extends State<SignUp> {
   }
 
   void signUpUser() async {
-    FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
+    context.read<FirebaseAuthMethods>().signUpWithEmail(
       email: signUpEmailController.text,
       password: signUpPasswordController.text,
       context: context,
     );
+     Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SuccessSignUpScreen()));
   }
 
   @override

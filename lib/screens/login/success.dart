@@ -1,9 +1,30 @@
+import 'dart:async';
+
 import 'package:crypto/constants.dart';
 import 'package:crypto/widgets/greenButton.dart';
 import 'package:flutter/material.dart';
 
-class SuccessSignUpScreen extends StatelessWidget {
+import '../home/home.dart';
+
+class SuccessSignUpScreen extends StatefulWidget {
   const SuccessSignUpScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SuccessSignUpScreen> createState() => _SuccessSignUpScreenState();
+}
+
+class _SuccessSignUpScreenState extends State<SuccessSignUpScreen> {
+  // @override
+  // void initState() {
+  //   Timer(const Duration(seconds: 3), () {
+  //     //! Screen navigation after successful hosting of product
+  //     Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const HomeScreen()),
+  //         (route) => false);
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +61,19 @@ class SuccessSignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(
                   width: double.maxFinite,
-                  child: greenButton(text: "Get Started", onPressed: () {}),
+                  child: greenButton(
+                      text: "Get Started",
+                      onPressed: () {
+                        // Navigator.pushAndRemoveUntil(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const HomeScreen()),
+                        //     (route) => false);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
+                      }),
                 ),
                 const Spacer(flex: 10),
               ],
