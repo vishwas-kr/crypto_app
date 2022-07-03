@@ -69,10 +69,10 @@ class _SuccessSignUpScreenState extends State<SuccessSignUpScreen> {
                         //     MaterialPageRoute(
                         //         builder: (context) => const HomeScreen()),
                         //     (route) => false);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => HomeScreen()));
                       }),
                 ),
                 const Spacer(flex: 10),

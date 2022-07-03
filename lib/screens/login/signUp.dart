@@ -38,10 +38,10 @@ class _SignUpState extends State<SignUp> {
       password: signUpPasswordController.text,
       context: context,
     );
-     Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SuccessSignUpScreen()));
+    //  Navigator.push(
+    //                       context,
+    //                       MaterialPageRoute(
+    //                           builder: (context) => SuccessSignUpScreen()));
   }
 
   @override

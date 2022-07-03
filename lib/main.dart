@@ -25,32 +25,31 @@ class MyApp extends StatelessWidget {
           create: (_) => FirebaseAuthMethods(FirebaseAuth.instance),
         ),
         StreamProvider(
-            create: (_) => context.read<FirebaseAuthMethods>().authState,
-            initialData: null)
+          create: (context) => context.read<FirebaseAuthMethods>().authState,
+          initialData: null,
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: "Montreal",
-          // primarySwatch: Colors.blue,
         ),
-        home: const SpalashScreen(),
+        home: const AuthWrapper(),
       ),
     );
   }
 }
 
-// class AuthWrapper extends StatelessWidget {
-//   const AuthWrapper({Key? key}) : super(key: key);
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({Key? key}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final firebaseUser = context.watch<User?>();
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User?>();
 
-//     if (firebaseUser== null) {
-//       return const HomeScreen();
-//     }
-//     return const SpalashScreen();
-//   }
-// }
+    if (firebaseUser != null) {
+      return const HomeScreen();
+    }
+    return const SignInScreen();
+  }
+}

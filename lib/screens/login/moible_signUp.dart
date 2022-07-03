@@ -17,12 +17,12 @@ class MobileSignUp extends StatefulWidget {
 class _MobileSignUpState extends State<MobileSignUp> {
   final TextEditingController signUpMobileController = TextEditingController();
 
-  void mobileNumberSignIn() {
-    context.read<FirebaseAuthMethods>().phoneSignIn(
-        phoneNumber: signUpMobileController.text, context: context);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
-  }
+  // void mobileNumberSignIn() {
+  //   context.read<FirebaseAuthMethods>().phoneSignIn(
+  //       phoneNumber: signUpMobileController.text, context: context);
+  //   // Navigator.push(context,
+  //   //     MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,11 @@ class _MobileSignUpState extends State<MobileSignUp> {
             ),
             greenButton(
               text: "Send OTP",
-              onPressed: mobileNumberSignIn,
+              onPressed: () {
+                context
+                    .read<FirebaseAuthMethods>()
+                    .phoneSignIn(signUpMobileController.text, context: context);
+              },
             ),
             const Spacer(
               flex: 25,

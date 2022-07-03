@@ -48,8 +48,8 @@ class _SignInScreenState extends State<SignInScreen> {
           password: emailPasswordController.text,
           context: context,
         );
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
+    // Navigator.push(context,
+    //     MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
   }
 
   @override
@@ -180,10 +180,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       context
                           .read<FirebaseAuthMethods>()
                           .signInWithGoogle(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SuccessSignUpScreen()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => SuccessSignUpScreen()));
                     },
                   )
                 ],
@@ -196,10 +196,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   context
                       .read<FirebaseAuthMethods>()
                       .signInAnonymously(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SuccessSignUpScreen()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => SuccessSignUpScreen()));
                 },
                 child: Column(
                   children: [
