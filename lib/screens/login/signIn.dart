@@ -7,6 +7,8 @@ import 'package:crypto/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../app/notifiers/app_notifiers.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
 
@@ -17,8 +19,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
   bool isSelected = true;
-  bool notVisible = true;
-  bool signInType = true;
+  //bool notVisible = true;
+  // bool signInType = true;
   final TextEditingController emailPasswordController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController mobilePasswordController =
@@ -29,8 +31,8 @@ class _SignInScreenState extends State<SignInScreen> {
     // TODO: implement initState
     super.initState();
     isSelected = true;
-    notVisible = true;
-    signInType = true;
+    // notVisible = true;
+    // signInType = true;
   }
 
   @override
@@ -56,6 +58,10 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    var appNotifier = Provider.of<AppNotifiers>(context, listen: true);
+    var signInType = appNotifier.signInType;
+    var isVisbile = appNotifier.isVisible;
     print(height);
     print(width);
     return Scaffold(
@@ -67,7 +73,7 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Spacer(
+              const Spacer(
                 flex: 10,
               ),
               Container(
@@ -157,7 +163,9 @@ class _SignInScreenState extends State<SignInScreen> {
               const Spacer(
                 flex: 5,
               ),
-              isSelected ? signInLayout(height) : SignUp(),
+              isSelected
+                  ? signInLayout(height, signInType, isVisbile)
+                  : SignUp(),
               const Spacer(
                 flex: 1,
               ),
@@ -196,10 +204,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   context
                       .read<FirebaseAuthMethods>()
                       .signInAnonymously(context);
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => SuccessSignUpScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SuccessSignUpScreen()));
                 },
                 child: Column(
                   children: [
@@ -226,7 +234,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Container signInLayout(double height) {
+  Container signInLayout(double height, bool _signInType, bool isVisible) {
     return Container(
       height: height / 2.2,
       child: LayoutBuilder(builder: (context, constraints) {
@@ -235,7 +243,7 @@ class _SignInScreenState extends State<SignInScreen> {
           children: [
             Row(
               children: [
-                signInType
+                _signInType
                     ? const Text(
                         "Email",
                         style: TextStyle(
@@ -251,16 +259,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 const Spacer(),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      if (signInType != true) {
-                        signInType = true;
-                      } else {
-                        signInType = false;
-                      }
-                    });
-                    // mobileController.clear();
+                    Provider.of<AppNotifiers>(context, listen: false)
+                        .changeSignInUpType();
                   },
-                  child: signInType
+                  child: _signInType
                       ? const Text(
                           "Sign in with mobile",
                           style: TextStyle(
@@ -279,7 +281,7 @@ class _SignInScreenState extends State<SignInScreen> {
             const Spacer(
               flex: 1,
             ),
-            signInType
+            _signInType
                 ? textField(
                     controller: emailController,
                     hint: "Enter your email",
@@ -300,54 +302,31 @@ class _SignInScreenState extends State<SignInScreen> {
             const Spacer(
               flex: 1,
             ),
-            signInType
+            _signInType
                 ? textField(
                     controller: emailPasswordController,
                     hint: "Enter your password",
-                    obscureText: notVisible,
+                    obscureText: isVisible,
                     suffixIcon: InkWell(
                       onTap: () {
-                        setState(() {
-                          if (notVisible != true) {
-                            notVisible = true;
-                          } else {
-                            notVisible = false;
-                          }
-                        });
+                        Provider.of<AppNotifiers>(context, listen: false)
+                            .toggleObs();
                       },
-                      child: notVisible
-                          ? const Icon(
-                              Icons.visibility_off,
-                              color: kGrey,
-                            )
-                          : const Icon(
-                              Icons.visibility,
-                              color: kGrey,
-                            ),
+                      child: Provider.of<AppNotifiers>(context, listen: false)
+                          .switchObsIcon,
                     ),
                   )
                 : textField(
                     controller: mobilePasswordController,
                     hint: "Enter your password",
-                    obscureText: notVisible,
+                    obscureText: isVisible,
                     suffixIcon: InkWell(
                       onTap: () {
-                        setState(() {
-                          if (notVisible != true)
-                            notVisible = true;
-                          else
-                            notVisible = false;
-                        });
+                        Provider.of<AppNotifiers>(context, listen: false)
+                            .toggleObs();
                       },
-                      child: notVisible
-                          ? const Icon(
-                              Icons.visibility_off,
-                              color: kGrey,
-                            )
-                          : const Icon(
-                              Icons.visibility,
-                              color: kGrey,
-                            ),
+                      child: Provider.of<AppNotifiers>(context, listen: false)
+                          .switchObsIcon,
                     ),
                   ),
             const Spacer(

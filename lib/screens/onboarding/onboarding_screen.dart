@@ -3,6 +3,8 @@ import 'package:crypto/screens/login/signIn.dart';
 import 'package:flutter/material.dart';
 
 class OnBoardingScreen extends StatefulWidget {
+  const OnBoardingScreen({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }

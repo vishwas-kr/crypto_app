@@ -1,9 +1,7 @@
-import 'package:crypto/screens/home/home.dart';
-import 'package:crypto/screens/login/verification_code.dart';
+
 import 'package:crypto/utils/showSnackBar.dart';
 import 'package:crypto/utils/verification_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

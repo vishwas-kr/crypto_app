@@ -1,12 +1,13 @@
-import 'package:crypto/constants.dart';
+
 import 'package:crypto/screens/home/home.dart';
-import 'package:crypto/screens/login/signIn.dart';
 import 'package:crypto/screens/splash/splash_screen.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'app/notifiers/app_notifiers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
           create: (context) => context.read<FirebaseAuthMethods>().authState,
           initialData: null,
         ),
+        ChangeNotifierProvider(create: (_) => AppNotifiers()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -50,6 +52,6 @@ class AuthWrapper extends StatelessWidget {
     if (firebaseUser != null) {
       return const HomeScreen();
     }
-    return const SignInScreen();
+    return const SpalashScreen();
   }
 }
