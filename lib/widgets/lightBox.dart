@@ -25,64 +25,73 @@ class lighBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height / 12,
-      margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
+      height: height,
+      //margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
       padding: const EdgeInsets.symmetric(horizontal: 13),
       decoration: BoxDecoration(
-          color: Color(0xffF1F4F6), borderRadius: BorderRadius.circular(12)),
-      child: Row(
-        children: [
-          Container(
-            width: width / 8,
-            decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage(backgroundImage))),
-            child: Stack(
-              alignment: Alignment.center,
+          color: const Color(0xffF1F4F6),
+          borderRadius: BorderRadius.circular(12)),
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Row(
+          children: [
+            Container(
+              width: constraints.maxHeight,
+              decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage(backgroundImage))),
+              child: Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  Image.asset(
+                    image,
+                    height: constraints.maxHeight * 0.9,
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              width: constraints.maxWidth / 30,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset(
-                  image,
+                Text(
+                  heading,
+                  style: TextStyle(
+                      fontSize: constraints.maxWidth / 24,
+                      fontFamily: "MYRIADPRO",
+                      color: kBlack),
+                ),
+                Text(
+                  subHeading,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: constraints.maxWidth / 26,
+                      fontFamily: "MYRIADPRO",
+                      color: kGrey),
                 )
               ],
             ),
-          ),
-          SizedBox(
-            width: width / 25,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                heading,
-                style: const TextStyle(fontFamily: "MYRIADPRO", color: kBlack),
+            const Spacer(),
+            InkWell(
+              onTap: onTap,
+              child: Container(
+                height: constraints.maxHeight * 0.6,
+                width: constraints.maxWidth / 8,
+                decoration: BoxDecoration(
+                  color: Color(0xffE3E8ED),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: kGrey,
+                  size: constraints.maxWidth / 18,
+                ),
               ),
-              Text(
-                subHeading,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 13, fontFamily: "MYRIADPRO", color: kGrey),
-              )
-            ],
-          ),
-          const Spacer(),
-          InkWell(
-            child: Container(
-              height: height / 20,
-              width: 40,
-              decoration: BoxDecoration(
-                color: Color(0xffE3E8ED),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(
-                Icons.arrow_forward,
-                color: kGrey,
-                size: 18,
-              ),
-            ),
-            onTap: onTap,
-          )
-        ],
-      ),
+            )
+          ],
+        );
+      }),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:crypto/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens/home/home.dart';
+import '../../screens/home/menu.dart';
 
 class AppRoutes {
   static const String splashScreenRoute = "/splashScreen";
@@ -16,6 +17,7 @@ class AppRoutes {
   static const String mobileSignUpRoute = "/mobileSignUp";
   static const String successSignUpScreenRoute = "successSignUp";
   static const String homeScreenRoute = "/homeScreen";
+  static const String menuScreenRoute = "/menuScreen";
 
   static Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -59,6 +61,12 @@ class AppRoutes {
         {
           return MaterialPageRoute(
             builder: (_) => const SuccessSignUpScreen(),
+          );
+        }
+      case menuScreenRoute:
+        {
+          return MaterialPageRoute(
+            builder: (_) => const MenuScreen(),
           );
         }
     }

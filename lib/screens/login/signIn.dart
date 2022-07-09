@@ -50,8 +50,8 @@ class _SignInScreenState extends State<SignInScreen> {
           password: emailPasswordController.text,
           context: context,
         );
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
   }
 
   @override

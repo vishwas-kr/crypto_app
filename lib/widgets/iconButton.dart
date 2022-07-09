@@ -9,18 +9,28 @@ InkWell iconButtons({
   required VoidCallback onTap,
 }) {
   return InkWell(
+      onTap: onTap,
       child: SizedBox(
-    height: height,
-    width: width,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(image),
-        Text(
-          text,
-          style: const TextStyle(fontFamily: "MYRIADPRO", color: kLightGrey),
-        )
-      ],
-    ),
-  ));
+        height: height,
+        width: width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              image,
+              // height: height / 1.5,
+              // width: width / 1.4,
+              // fit: BoxFit.cover,
+            ),
+            Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              style:
+                  const TextStyle(fontFamily: "MYRIADPRO", color: kLightGrey),
+            )
+          ],
+        ),
+      ));
 }

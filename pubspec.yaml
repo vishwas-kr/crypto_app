@@ -41,6 +41,9 @@ dependencies:
   google_sign_in: ^5.3.3
   flutter_facebook_auth: ^4.3.4+2
   provider: ^6.0.3
+  http: ^0.13.4
+  syncfusion_flutter_charts: ^20.2.36
+  ternav_icons: ^1.0.0
 
 
 dev_dependencies:

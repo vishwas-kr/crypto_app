@@ -1,4 +1,4 @@
-
+import 'package:crypto/app/routes/app_routes.dart';
 import 'package:crypto/screens/home/home.dart';
 import 'package:crypto/screens/splash/splash_screen.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'app/notifiers/app_notifiers.dart';
+import 'screens/login/signIn.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Montreal",
         ),
         home: const AuthWrapper(),
+        onGenerateRoute: AppRoutes.generateRoute,
       ),
     );
   }
@@ -52,6 +54,6 @@ class AuthWrapper extends StatelessWidget {
     if (firebaseUser != null) {
       return const HomeScreen();
     }
-    return const SpalashScreen();
+    return const SignInScreen();
   }
 }
