@@ -1,22 +1,25 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
-import '../model/crypto_model.dart';
+import '../model/crypto_symbol.dart';
 
 // class API {
-//   static String key = "412368349e2b7d7a69b25612757331a0fd0a1d48";
+//   static final key = "x2KcbP5bTAUrJ7r7Bgk2";
 
-//   static Future getCryptoDetails() async {
+//   static Future getCryptoSymbolDetails() async {
+//     final url =
+//         "https://fcsapi.com/api-v3/crypto/list?type=crypto&access_key=$key";
 //     try {
-//       final response = await http.get(Uri.parse(
-//           "https://api.nomics.com/v1/currencies/ticker?key=$key"));
+//       final response = await http.get(Uri.parse(url));
 //       if (response.statusCode == 200) {
+//         final response = await http.get(Uri.parse(url));
+
 //         var body = await jsonDecode(response.body);
-//         print("HELLO USER BODY IS HERE");
-//         print(body[0]["currency"].toString());
-//         return body;
+//         print(body);
+
+//         CryptoSymbol symbol = CryptoSymbol.fromJson(body);
+//         return symbol;
 //       } else {
 //         return null;
 //       }
@@ -25,3 +28,23 @@ import '../model/crypto_model.dart';
 //     }
 //   }
 // }
+
+class CryptoAPI {
+  final client = http.Client();
+  final headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': "*",
+    'Authorization': "test"
+  };
+
+  Future getData() async {
+    final Uri uri = Uri.parse('https://api.coincap.io/v2/assets');
+    final http.Response response = await client.get(
+      uri,
+      headers: headers,
+    );
+    final dynamic body = response.body;
+    return body;
+  }
+}

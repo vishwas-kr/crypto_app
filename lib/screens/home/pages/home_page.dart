@@ -1,4 +1,5 @@
 import 'package:crypto/app/notifiers/app_notifiers.dart';
+import 'package:crypto/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -166,10 +167,15 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 10,
                 ),
-                 SizedBox(height: 120, child: BuildCard()),
+                SizedBox(height: 120, child: BuildCard()),
               ],
             ),
           ),
+          ElevatedButton(
+              onPressed: () {
+               // API.getCryptoSymbolDetails();
+              },
+              child: Text("hii")),
           ElevatedButton(
               onPressed: () {
                 context.read<FirebaseAuthMethods>().deleteAccount(context);

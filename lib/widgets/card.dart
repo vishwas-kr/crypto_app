@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:crypto/app/notifiers/app_notifiers.dart';
+import 'package:crypto/constants.dart';
+import 'package:crypto/model/crypto_symbol.dart';
+import 'package:crypto/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,47 +14,94 @@ class BuildCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height / 815;
     double width = MediaQuery.of(context).size.width / 375;
-    final data = Provider.of<AppNotifiers>(context);
+    var data = Provider.of<AppNotifiers>(context, listen: false);
+    //  Timer.periodic(Duration(milliseconds: 833), (timer) {
+    //   data.getData();
+    // });
 
-    return ListView.builder(
-      physics:
-          const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      itemCount: 6,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: ((context, index) {
-        return Card(
-          elevation: 2,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          child: Container(
-            height: height * 100,
-            width: width * 150,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("3425.0"),
-                    Image.network(
-                      "https://img.icons8.com/color-glass/48/000000/rick-sanchez.png",
-                      height: 30,
-                    )
-                  ],
+    return FutureBuilder(
+      future: data.getData(),
+      builder: ((BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text("Opps! Try Again later."),
+          );
+        }
+        // if (snapshot.connectionState == ConnectionState.waiting) {
+        //   return const Center(
+        //       child: CircularProgressIndicator(
+        //     color: kGreen,
+        //   ));
+        // }
+        if (snapshot.hasData) {
+          List _snapshot = snapshot.data as List;
+          return ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics()),
+            itemCount: snapshot.data.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: ((context, index) {
+              CryptoData crypto = _snapshot[index];
+              var color = double.parse(crypto.changePercent24Hr.toString());
+              // if (crypto.changePercent24Hr!= null ||crypto.changePercent24Hr < ) {
+              //   color = Colors.red;
+              // } else {
+              //   color = kGreen;
+              // }
+              return Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14)),
+                child: Container(
+                  height: height * 100,
+                  width: width * 150,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            double.parse(crypto.priceUsd.toString())
+                                .toStringAsFixed(2),
+                            style: TextStyle(
+                                color: color < 0 ? Colors.red : kGreen),
+                          ),
+                          Image.network(
+                            "https://img.icons8.com/color-glass/48/000000/rick-sanchez.png",
+                            height: 30,
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(crypto.symbol.toString()),
+                          SizedBox(
+                            width: width * 10,
+                          ),
+                          Text(
+                            "${double.parse(crypto.changePercent24Hr.toString()).toStringAsFixed(2)}%",
+                            style: TextStyle(
+                                color: color < 0 ? Colors.red : kGreen),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                Row(
-                  children: const [
-                    Text("MFT/BSD"),
-                    Text("+0.81%"),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
+              );
+            }),
+          );
+        }
+
+        return const Center(
+            child: CircularProgressIndicator(
+          color: kGreen,
+        ));
       }),
     );
   }

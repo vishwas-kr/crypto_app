@@ -3,6 +3,7 @@ import 'package:crypto/screens/home/pages/activity_page.dart';
 import 'package:crypto/screens/home/pages/market_page.dart';
 import 'package:crypto/screens/home/pages/trade_page.dart';
 import 'package:crypto/screens/home/pages/wallet_page.dart';
+import 'package:crypto/screens/notification/notification_screen.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -65,15 +66,24 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Image.asset("images/icons/scanner.png"),
           ),
           InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NotificationScreen()));
+            },
             child: Image.asset("images/icons/notification.png"),
           )
         ],
       ),
-      bottomNavigationBar: _buildBottomBar(),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: screens,
-      ),
+      // bottomNavigationBar: _buildBottomBar(),
+      body: Stack(children: [
+        IndexedStack(
+          index: _currentIndex,
+          children: screens,
+        ),
+        Align(alignment: Alignment.bottomCenter, child: _buildBottomBar())
+      ]),
     );
   }
 

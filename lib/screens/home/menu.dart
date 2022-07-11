@@ -8,9 +8,8 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    double fontSize = width / 375;
+    double height = MediaQuery.of(context).size.height / 815;
+    double width = MediaQuery.of(context).size.width / 375;
     print("Box Height${height / 1.6}");
     return Scaffold(
       backgroundColor: kDarkBlack,
@@ -18,7 +17,7 @@ class MenuScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: height / 815 * 150,
+              height: height * 150,
               padding: const EdgeInsets.only(
                   left: 18, right: 18, bottom: 16, top: 8),
               decoration: BoxDecoration(
@@ -106,7 +105,7 @@ class MenuScreen extends StatelessWidget {
                       ),
                       Container(
                         height: 30,
-                        width: 100,
+                        width: width * 100,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10)),
                         child: ElevatedButton(
@@ -120,7 +119,7 @@ class MenuScreen extends StatelessWidget {
                               style: TextStyle(
                                 color: kBlack,
                                 fontFamily: "MYRIADPRO",
-                                fontSize: fontSize * 14,
+                                fontSize: width * 14,
                               ),
                             )),
                       )
@@ -132,7 +131,7 @@ class MenuScreen extends StatelessWidget {
             SingleChildScrollView(
               child: Container(
                 // height: height / 1.6,
-                height: 490,
+                height: 600,
                 width: double.maxFinite,
                 margin: const EdgeInsets.only(left: 16, right: 16, top: 24),
                 child: LayoutBuilder(builder: (context, constraints) {
