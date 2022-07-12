@@ -6,9 +6,10 @@ import 'package:provider/provider.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../constants.dart';
 import '../../../services/firebase_auth_methods.dart';
-import '../../../widgets/card.dart';
+import '../../../widgets/recent_card.dart';
 import '../../../widgets/iconButton.dart';
 import '../../../widgets/lightBox.dart';
+import '../../../widgets/top_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -142,45 +143,45 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "Recent Coins",
                   style: TextStyle(
                       color: kDarkBlack,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 10,
                 ),
                 SizedBox(height: 120, child: BuildCard()),
-                const SizedBox(
+                SizedBox(
                   height: 10,
                 ),
-                const Text(
+                Text(
                   "Top Coins",
                   style: TextStyle(
                       color: kDarkBlack,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 10,
                 ),
-                SizedBox(height: 120, child: BuildCard()),
+                SizedBox(height: 120, child: TopCard()),
               ],
             ),
           ),
           ElevatedButton(
               onPressed: () {
-               // API.getCryptoSymbolDetails();
+                context.read<FirebaseAuthMethods>().signOut(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, AppRoutes.signInScreenRoute, (route) => false);
               },
-              child: Text("hii")),
-          ElevatedButton(
-              onPressed: () {
-                context.read<FirebaseAuthMethods>().deleteAccount(context);
-              },
-              child: const Text("Delete"))
+              child: const Text("Sign out")),
+          SizedBox(
+            height: 200,
+          )
         ],
       ),
     );

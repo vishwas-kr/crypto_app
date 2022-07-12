@@ -3,11 +3,13 @@ import 'package:crypto/screens/login/signUp.dart';
 import 'package:crypto/screens/login/success.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
 import 'package:crypto/widgets/f&g_button.dart';
+import 'package:crypto/widgets/loading.dart';
 import 'package:crypto/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/notifiers/app_notifiers.dart';
+import '../../app/routes/app_routes.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -19,8 +21,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
   bool isSelected = true;
-  //bool notVisible = true;
-  // bool signInType = true;
+  bool loading = false;
   final TextEditingController emailPasswordController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController mobilePasswordController =
@@ -31,8 +32,6 @@ class _SignInScreenState extends State<SignInScreen> {
     // TODO: implement initState
     super.initState();
     isSelected = true;
-    // notVisible = true;
-    // signInType = true;
   }
 
   @override
@@ -44,15 +43,13 @@ class _SignInScreenState extends State<SignInScreen> {
     mobilePasswordController.dispose();
   }
 
-  void loginUser() async {
-    context.read<FirebaseAuthMethods>().loginWithEmail(
-          email: emailController.text,
-          password: emailPasswordController.text,
-          context: context,
-        );
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
-  }
+  // void loginUser() async {
+  //   context.read<FirebaseAuthMethods>().loginWithEmail(
+  //         email: emailController.text,
+  //         password: emailPasswordController.text,
+  //         context: context,
+  //       );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,174 +61,189 @@ class _SignInScreenState extends State<SignInScreen> {
     var isVisbile = appNotifier.isVisible;
     print(height);
     print(width);
-    return Scaffold(
-      backgroundColor: kBlack,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const Spacer(
-                flex: 10,
-              ),
-              Container(
-                height: height * 0.050,
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                    color: kDarkBlack, borderRadius: BorderRadius.circular(12)),
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isSelected = true;
-                            print("Sign In: $isSelected");
-                          });
-                        },
-                        child: Container(
-                          width: constraints.maxWidth / 2,
-                          decoration: isSelected
-                              ? BoxDecoration(
-                                  color: kBlack,
-                                  borderRadius: BorderRadius.circular(10),
-                                )
-                              : null,
-                          child: Center(
-                            child: Text(
-                              "Sign in",
-                              style: TextStyle(
-                                  color: isSelected ? kWhite : kGrey,
-                                  fontFamily: "MYRIADPRO"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isSelected = false;
-                            print("Sign Up: $isSelected");
-                          });
-                        },
-                        child: Container(
-                          width: constraints.maxWidth / 2,
-                          decoration: isSelected
-                              ? null
-                              : BoxDecoration(
-                                  color: kBlack,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                          child: Center(
-                            child: Text(
-                              "Sign up",
-                              style: TextStyle(
-                                  color: isSelected ? kGrey : kWhite,
-                                  fontFamily: "MYRIADPRO"),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                }),
-              ),
-              const Spacer(
-                flex: 12,
-              ),
-              // Sign UP Text
-              isSelected
-                  ? const Text(
-                      "Sign in",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: kWhite,
-                        fontSize: 32,
-                      ),
-                    )
-                  : const Text(
-                      "Sign up",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: kWhite,
-                        fontSize: 32,
-                      ),
-                    ),
-              const Spacer(
-                flex: 5,
-              ),
-              isSelected
-                  ? signInLayout(height, signInType, isVisbile)
-                  : SignUp(),
-              const Spacer(
-                flex: 1,
-              ),
-              Row(
-                children: [
-                  FGButtom(
-                    height: height * 0.06,
-                    width: width / 2.5,
-                    text: "Facebook",
-                    image: "images/icons/facebook.png",
-                    onTap: () {},
-                  ),
-                  const Spacer(),
-                  FGButtom(
-                    height: height * 0.06,
-                    width: width / 2.5,
-                    text: "Google",
-                    image: "images/icons/google.png",
-                    onTap: () {
-                      context
-                          .read<FirebaseAuthMethods>()
-                          .signInWithGoogle(context);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => SuccessSignUpScreen()));
-                    },
-                  )
-                ],
-              ),
-              const Spacer(
-                flex: 15,
-              ),
-              GestureDetector(
-                onTap: () {
-                  context
-                      .read<FirebaseAuthMethods>()
-                      .signInAnonymously(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SuccessSignUpScreen()));
-                },
+    return loading
+        ? Loading()
+        : Scaffold(
+            backgroundColor: kBlack,
+            resizeToAvoidBottomInset: false,
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0, vertical: 18.0),
                 child: Column(
-                  children: [
-                    Image(
-                      image: const AssetImage("images/anonymous.png"),
-                      height: height * 0.060,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const Spacer(
+                      flex: 10,
                     ),
-                    const Text(
-                      "Use anonymous instead?",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: kGrey, fontFamily: "MYRIADPRO", height: 2),
+                    Container(
+                      height: height * 0.050,
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                          color: kDarkBlack,
+                          borderRadius: BorderRadius.circular(12)),
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isSelected = true;
+                                  print("Sign In: $isSelected");
+                                });
+                              },
+                              child: Container(
+                                width: constraints.maxWidth / 2,
+                                decoration: isSelected
+                                    ? BoxDecoration(
+                                        color: kBlack,
+                                        borderRadius: BorderRadius.circular(10),
+                                      )
+                                    : null,
+                                child: Center(
+                                  child: Text(
+                                    "Sign in",
+                                    style: TextStyle(
+                                        color: isSelected ? kWhite : kGrey,
+                                        fontFamily: "MYRIADPRO"),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isSelected = false;
+                                  print("Sign Up: $isSelected");
+                                });
+                              },
+                              child: Container(
+                                width: constraints.maxWidth / 2,
+                                decoration: isSelected
+                                    ? null
+                                    : BoxDecoration(
+                                        color: kBlack,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                child: Center(
+                                  child: Text(
+                                    "Sign up",
+                                    style: TextStyle(
+                                        color: isSelected ? kGrey : kWhite,
+                                        fontFamily: "MYRIADPRO"),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      }),
                     ),
+                    const Spacer(
+                      flex: 12,
+                    ),
+                    // Sign UP Text
+                    isSelected
+                        ? const Text(
+                            "Sign in",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: kWhite,
+                              fontSize: 32,
+                            ),
+                          )
+                        : const Text(
+                            "Sign up",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: kWhite,
+                              fontSize: 32,
+                            ),
+                          ),
+                    const Spacer(
+                      flex: 5,
+                    ),
+                    isSelected
+                        ? signInLayout(height, signInType, isVisbile)
+                        : SignUp(),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Row(
+                      children: [
+                        FGButtom(
+                          height: height * 0.06,
+                          width: width / 2.5,
+                          text: "Facebook",
+                          image: "images/icons/facebook.png",
+                          onTap: () {},
+                        ),
+                        const Spacer(),
+                        FGButtom(
+                          height: height * 0.06,
+                          width: width / 2.5,
+                          text: "Google",
+                          image: "images/icons/google.png",
+                          onTap: () async {
+                            setState(() {
+                              loading = true;
+                            });
+                            await context
+                                .read<FirebaseAuthMethods>()
+                                .signInWithGoogle(context);
+                            setState(() {
+                              loading = false;
+                            });
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                AppRoutes.homeScreenRoute, (route) => false);
+                          },
+                        )
+                      ],
+                    ),
+                    const Spacer(
+                      flex: 15,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          loading = true;
+                        });
+                        await context
+                            .read<FirebaseAuthMethods>()
+                            .signInAnonymously(context);
+
+                        setState(() {
+                          loading = false;
+                        });
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            AppRoutes.homeScreenRoute, (route) => false);
+                      },
+                      child: Column(
+                        children: [
+                          Image(
+                            image: const AssetImage("images/anonymous.png"),
+                            height: height * 0.060,
+                          ),
+                          const Text(
+                            "Use anonymous instead?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: kGrey,
+                                fontFamily: "MYRIADPRO",
+                                height: 2),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 15,
+                    )
                   ],
                 ),
               ),
-              const Spacer(
-                flex: 15,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   Container signInLayout(double height, bool _signInType, bool isVisible) {
@@ -347,7 +359,19 @@ class _SignInScreenState extends State<SignInScreen> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(40)),
               child: ElevatedButton(
-                  onPressed: loginUser,
+                  onPressed: () async {
+                    setState(() {
+                      loading = true;
+                    });
+                    await context.read<FirebaseAuthMethods>().loginWithEmail(
+                          email: emailController.text,
+                          password: emailPasswordController.text,
+                          context: context,
+                        );
+                    loading = false;
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, AppRoutes.homeScreenRoute, (route) => false);
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: kGreen,
                       shape: RoundedRectangleBorder(

@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:crypto/constants.dart';
-import 'package:crypto/model/crypto_symbol.dart';
 import 'package:crypto/services/api.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
+import '../../model/FinalModel.dart';
 
 class AppNotifiers extends ChangeNotifier {
   bool _signInType = true;
@@ -42,11 +41,10 @@ class AppNotifiers extends ChangeNotifier {
   //API CRYPTO
   final CryptoAPI cryptoAPI = CryptoAPI();
 
-  Future getData() async {
-   
-    var data = await cryptoAPI.getData();
-    final Map<String, dynamic> parseData = await jsonDecode(data);
-    var x = parseData['data'];
-    return x.map((datax) => CryptoData.fromJson(datax)).toList();
+  Future<FinalModel>getFinalData() async {
+    var res = await cryptoAPI.cryptoApi();
+    //print(res);
+    var data = jsonDecode(res);
+    return FinalModel.fromJson(data);
   }
 }

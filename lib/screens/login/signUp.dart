@@ -2,9 +2,12 @@ import 'package:crypto/constants.dart';
 import 'package:crypto/screens/login/moible_signUp.dart';
 import 'package:crypto/screens/login/success.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
+import 'package:crypto/utils/showSnackBar.dart';
 import 'package:crypto/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../app/routes/app_routes.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -28,20 +31,17 @@ class _SignUpState extends State<SignUp> {
   @override
   void dispose() {
     super.dispose();
+    
     signUpEmailController.dispose();
     signUpPasswordController.dispose();
   }
 
   void signUpUser() async {
     context.read<FirebaseAuthMethods>().signUpWithEmail(
-      email: signUpEmailController.text,
-      password: signUpPasswordController.text,
-      context: context,
-    );
-    //  Navigator.push(
-    //                       context,
-    //                       MaterialPageRoute(
-    //                           builder: (context) => SuccessSignUpScreen()));
+          email: signUpEmailController.text,
+          password: signUpPasswordController.text,
+          context: context,
+        );
   }
 
   @override
@@ -130,7 +130,12 @@ class _SignUpState extends State<SignUp> {
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(40)),
                 child: ElevatedButton(
-                    onPressed: signUpUser,
+                    onPressed: () async {
+                      await signUpUser;
+                      Navigator.pushNamedAndRemoveUntil(context,
+                          AppRoutes.signInScreenRoute, (route) => false);
+                      showSnackBar(context, "Login from here");
+                    },
                     style: ElevatedButton.styleFrom(
                         primary: kGreen,
                         shape: RoundedRectangleBorder(

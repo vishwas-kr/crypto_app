@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:crypto/app/notifiers/app_notifiers.dart';
 import 'package:crypto/constants.dart';
-import 'package:crypto/model/crypto_symbol.dart';
-import 'package:crypto/services/api.dart';
+import 'package:crypto/model/FinalModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class BuildCard extends StatelessWidget {
@@ -15,40 +13,24 @@ class BuildCard extends StatelessWidget {
     double height = MediaQuery.of(context).size.height / 815;
     double width = MediaQuery.of(context).size.width / 375;
     var data = Provider.of<AppNotifiers>(context, listen: false);
-    //  Timer.periodic(Duration(milliseconds: 833), (timer) {
-    //   data.getData();
-    // });
 
     return FutureBuilder(
-      future: data.getData(),
-      builder: ((BuildContext context, AsyncSnapshot snapshot) {
+      future: data.getFinalData(),
+      builder: ((BuildContext context, AsyncSnapshot<FinalModel> snapshot) {
         if (snapshot.hasError) {
           return const Center(
-            child: Text("Opps! Try Again later."),
+            child: Text("Opps! Try again later!"),
           );
         }
-        // if (snapshot.connectionState == ConnectionState.waiting) {
-        //   return const Center(
-        //       child: CircularProgressIndicator(
-        //     color: kGreen,
-        //   ));
-        // }
         if (snapshot.hasData) {
-          List _snapshot = snapshot.data as List;
           return ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
-            itemCount: snapshot.data.length,
+            itemCount: snapshot.data!.data!.coins!.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: ((context, index) {
-              CryptoData crypto = _snapshot[index];
-              var color = double.parse(crypto.changePercent24Hr.toString());
-              // if (crypto.changePercent24Hr!= null ||crypto.changePercent24Hr < ) {
-              //   color = Colors.red;
-              // } else {
-              //   color = kGreen;
-              // }
+             
               return Card(
                 elevation: 2,
                 shape: RoundedRectangleBorder(
@@ -66,28 +48,34 @@ class BuildCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            double.parse(crypto.priceUsd.toString())
+                            double.parse(snapshot
+                                    .data!.data!.coins![index].price
+                                    .toString())
                                 .toStringAsFixed(2),
-                            style: TextStyle(
-                                color: color < 0 ? Colors.red : kGreen),
+                            style: TextStyle(color: kGreen),
                           ),
-                          Image.network(
-                            "https://img.icons8.com/color-glass/48/000000/rick-sanchez.png",
+                          SizedBox(
                             height: 30,
+                            width: 30,
+                            child: SvgPicture.network(
+                              "${snapshot.data!.data!.coins![index].iconUrl}",
+                              fit: BoxFit.contain,
+                            ),
                           )
                         ],
                       ),
                       Row(
                         children: [
-                          Text(crypto.symbol.toString()),
+                          Text(
+                            snapshot.data!.data!.coins![index].symbol
+                                .toString(),
+                            style: TextStyle(),
+                          ),
                           SizedBox(
                             width: width * 10,
                           ),
                           Text(
-                            "${double.parse(crypto.changePercent24Hr.toString()).toStringAsFixed(2)}%",
-                            style: TextStyle(
-                                color: color < 0 ? Colors.red : kGreen),
-                          ),
+                              '${double.parse(snapshot.data!.data!.coins![index].change.toString()).toStringAsFixed(2)}%'),
                         ],
                       ),
                     ],

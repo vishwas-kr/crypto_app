@@ -3,9 +3,12 @@ import 'package:crypto/screens/login/success.dart';
 import 'package:crypto/services/firebase_auth_methods.dart';
 import 'package:crypto/widgets/appBar.dart';
 import 'package:crypto/widgets/greenButton.dart';
+import 'package:crypto/widgets/loading.dart';
 import 'package:crypto/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../app/routes/app_routes.dart';
 
 class MobileSignUp extends StatefulWidget {
   const MobileSignUp({Key? key}) : super(key: key);
@@ -16,13 +19,6 @@ class MobileSignUp extends StatefulWidget {
 
 class _MobileSignUpState extends State<MobileSignUp> {
   final TextEditingController signUpMobileController = TextEditingController();
-
-  // void mobileNumberSignIn() {
-  //   context.read<FirebaseAuthMethods>().phoneSignIn(
-  //       phoneNumber: signUpMobileController.text, context: context);
-  //   // Navigator.push(context,
-  //   //     MaterialPageRoute(builder: (context) => SuccessSignUpScreen()));
-  // }
 
   @override
   Widget build(BuildContext context) {
