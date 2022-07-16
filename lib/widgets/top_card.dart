@@ -30,6 +30,9 @@ class TopCard extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: ((context, index) {
               //print(snapshot.data![index].data!.coins![index].iconUrl);
+              // var color =
+              //     snapshot.data!.data!.coins![index].color?.substring(1);
+              // print(color);
               return Card(
                 elevation: 2,
                 shape: RoundedRectangleBorder(
@@ -58,7 +61,6 @@ class TopCard extends StatelessWidget {
                             width: 30,
                             child: SvgPicture.network(
                               "${snapshot.data!.data!.coins![index].iconUrl}",
-                            
                               fit: BoxFit.contain,
                             ),
                           )
@@ -75,7 +77,11 @@ class TopCard extends StatelessWidget {
                             width: width * 10,
                           ),
                           Text(
-                              '${double.parse(snapshot.data!.data!.coins![index].change.toString()).toStringAsFixed(2)}%'),
+                            '${double.parse(snapshot.data!.data!.coins![index].change.toString()).toStringAsFixed(2)}%',
+                            style: TextStyle(
+                                //color: Color(int.parse("0xff$color").toInt()),
+                                ),
+                          )
                         ],
                       ),
                     ],

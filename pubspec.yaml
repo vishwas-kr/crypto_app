@@ -45,6 +45,8 @@ dependencies:
   syncfusion_flutter_charts: ^20.2.36
   ternav_icons: ^1.0.0
   flutter_svg: ^1.1.1+1
+  firebase_messaging: ^12.0.0
+  flutter_local_notifications: ^9.7.0
 
 
 dev_dependencies:

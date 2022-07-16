@@ -139,6 +139,7 @@ class _HomePageState extends State<OnBoardingScreen> {
 
           ///heading text
           Text(
+            
             title,
             style: TextStyle(
               color: kWhite,
